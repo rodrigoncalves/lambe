@@ -1,10 +1,21 @@
 import React from 'react'
-import {createBottomTabNavigator} from 'react-navigation'
+import {createBottomTabNavigator, createSwitchNavigator} from 'react-navigation'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import Feed from './screens/Feed'
 import AddPhoto from './screens/AddPhoto'
 import Profile from './screens/Profile'
+import Login from './screens/Login'
+
+const loginOrProfileRouter = createSwitchNavigator(
+  {
+    Profile: Profile,
+    Auth: Login,
+  },
+  {
+    initialRouteName: 'Profile',
+  },
+)
 
 const MenuRoutes = {
   Feed: {
@@ -29,7 +40,7 @@ const MenuRoutes = {
   },
   Profile: {
     name: 'Profile',
-    screen: Profile,
+    screen: loginOrProfileRouter,
     navigationOptions: {
       title: 'Profile',
       tabBarIcon: ({tintColor: color}) => (
@@ -40,7 +51,7 @@ const MenuRoutes = {
 }
 
 const MenuConfig = {
-  initialRouteName: 'Profile',
+  initialRouteName: 'Feed',
   tabBarOptions: {
     showLabel: true,
   },
