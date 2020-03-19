@@ -22,11 +22,12 @@ export default class AddPhoto extends Component {
   pickImage = () => {
     ImagePicker.showImagePicker(
       {
-        title: 'Escolha a image',
+        title: 'Escolha a imagem',
         maxHeight: 600,
         maxWidth: 800,
       },
       res => {
+        console.log(res)
         if (!res.didCancel) {
           this.setState({image: {uri: res.uri, base64: res.data}})
         }
@@ -76,19 +77,23 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '90%',
-    height: (Dimensions.get('window').width * 3) / 4,
+    height: Dimensions.get('window').width / 2,
     backgroundColor: '#eee',
     marginTop: 10,
   },
   image: {
-    width: Dimensions.get('window').width,
-    height: (Dimensions.get('window').width * 3) / 4,
+    width: '100%',
+    height: Dimensions.get('window').width / 2,
     resizeMode: 'center',
   },
   button: {
     marginTop: 30,
     padding: 10,
     backgroundColor: '#4286f4',
+  },
+  buttonText: {
+    fontSize: 20,
+    color: 'white',
   },
   input: {
     marginTop: 20,
