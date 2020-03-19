@@ -7,10 +7,21 @@ const fence = require('./assets/imgs/fence.jpg')
 
 export default class App extends Component {
   render() {
+    const comments = [
+      {
+        nickname: 'Joanna Elena Silva',
+        comment: 'Excelente foto!',
+      },
+      {
+        nickname: 'Rafael Gustavo Pereira',
+        comment: 'Muito ruim! Faço melhor...',
+      },
+    ]
+
     return (
       <View style={styles.container}>
         <Header />
-        <Post image={fence} />
+        <Post image={fence} comments={comments} />
       </View>
     )
   }
