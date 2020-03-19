@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
+import {View, StyleSheet} from 'react-native'
 import Header from './src/components/Header'
-import {View, Text, StyleSheet} from 'react-native'
 import Post from './src/components/Post'
 
 const fence = require('./assets/imgs/fence.jpg')
