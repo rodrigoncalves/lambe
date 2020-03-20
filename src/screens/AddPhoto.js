@@ -20,12 +20,18 @@ const initialState = {
   comment: '',
 }
 
+const noUser = 'Você precisa estar logado para adicionar imagens'
 class AddPhoto extends Component {
   state = {
     ...initialState,
   }
 
   pickImage = () => {
+    if (!this.props.name || !this.props.email) {
+      Alert.alert('Falha!', noUser)
+      return
+    }
+
     ImagePicker.showImagePicker(
       {
         title: 'Escolha a imagem',
@@ -43,7 +49,7 @@ class AddPhoto extends Component {
 
   save = async () => {
     if (!this.props.name || !this.props.email) {
-      Alert.alert('Falha!', 'Você precisa estar logado para adicionar imagens')
+      Alert.alert('Falha!', noUser)
       return
     }
 
@@ -77,6 +83,7 @@ class AddPhoto extends Component {
           </TouchableOpacity>
           <TextInput
             placeholder="Algum comentário para foto?"
+            editable={!!this.props.name}
             style={styles.input}
             value={this.state.comment}
             onChangeText={comment => this.setState({comment})}
