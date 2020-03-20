@@ -25,7 +25,7 @@ class Login extends Component {
         <TextInput
           placeholder="Email"
           style={styles.input}
-          // autoFocus={true}
+          autoFocus={true}
           keyboardType="email-address"
           value={this.state.email}
           onChangeText={email => this.setState({email})}
