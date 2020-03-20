@@ -1,13 +1,17 @@
 import React, {Component} from 'react'
 import {View, Text, StyleSheet, TouchableOpacity, TextInput} from 'react-native'
+import {connect} from 'react-redux'
+import {login} from '../store/actions/user'
 
-export default class Login extends Component {
+class Login extends Component {
   state = {
+    name: 'Rodrigo',
     email: '',
     password: '',
   }
 
   login = () => {
+    this.props.onLogin({...this.state})
     this.props.navigation.navigate('Profile')
   }
 
@@ -68,3 +72,11 @@ const styles = StyleSheet.create({
     borderColor: '#333',
   },
 })
+
+const mapStatetoProps = null
+
+const mapDispatchToProps = dispatch => ({
+  onLogin: user => dispatch(login(user)),
+})
+
+export default connect(mapStatetoProps, mapDispatchToProps)(Login)
