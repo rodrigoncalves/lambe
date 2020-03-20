@@ -12,11 +12,17 @@ import {
   Platform,
   Dimensions,
 } from 'react-native'
+import {connect} from 'react-redux'
+import {addPost} from '../store/actions/posts'
 
-export default class AddPhoto extends Component {
+const initialState = {
+  image: null,
+  comment: '',
+}
+
+class AddPhoto extends Component {
   state = {
-    image: null,
-    comment: '',
+    ...initialState,
   }
 
   pickImage = () => {
@@ -36,7 +42,26 @@ export default class AddPhoto extends Component {
   }
 
   save = async () => {
-    Alert.alert('Imagem adicionada!', this.state.comment)
+    if (!this.props.name || !this.props.email) {
+      Alert.alert('Falha!', 'Você precisa estar logado para adicionar imagens')
+      return
+    }
+
+    this.props.onAddPost({
+      id: Math.random(),
+      nickname: this.props.name,
+      email: this.props.email,
+      image: this.state.image,
+      comments: [
+        {
+          nickname: this.props.name,
+          comment: this.state.comment,
+        },
+      ],
+    })
+
+    this.setState({...initialState})
+    this.props.navigation.navigate('Feed')
   }
 
   render() {
@@ -48,7 +73,7 @@ export default class AddPhoto extends Component {
             <Image source={this.state.image} style={styles.image} />
           </View>
           <TouchableOpacity onPress={this.pickImage} style={styles.button}>
-            <Text style={styles.buttonText}>Esolha a foto</Text>
+            <Text style={styles.buttonText}>Escolha a foto</Text>
           </TouchableOpacity>
           <TextInput
             placeholder="Algum comentário para foto?"
@@ -100,3 +125,11 @@ const styles = StyleSheet.create({
     width: '90%',
   },
 })
+
+const mapStateToProps = ({user}) => ({...user})
+
+const mapDispatchToProps = dispatch => ({
+  onAddPost: post => dispatch(addPost(post)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddPhoto)
