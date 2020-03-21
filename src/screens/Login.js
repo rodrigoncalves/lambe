@@ -5,14 +5,14 @@ import {login} from '../store/actions/user'
 
 class Login extends Component {
   state = {
-    name: 'Rodrigo',
+    name: '',
     email: '',
     password: '',
   }
 
   componentDidUpdate = prevProps => {
     if (prevProps.isLoading && !this.props.isLoading) {
-      this.props.navigations.navigate('Profile')
+      this.props.navigation.navigate('Profile')
     }
   }
 

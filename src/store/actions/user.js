@@ -5,6 +5,7 @@ import {
   USER_LOADED,
 } from './actionTypes'
 import Axios from 'axios'
+import {setMessage} from './message'
 
 const authBaseURL = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty'
 const API_KEY = 'AIzaSyDLQ8v0xYBAbTcy7iDUTRNSyxpBzQd0ZFI'
@@ -23,13 +24,13 @@ export const createUser = user => {
       password: user.password,
       returnSecureToken: true,
     })
-      .catch(err => console.error(err))
+      .catch(err => console.log(err))
       .then(res => {
         if (res.data.localId) {
           Axios.put(`/users/${res.data.localId}.json`, {
             name: user.name,
           })
-            .catch(err => console.error(err))
+            .catch(err => console.log(err))
             .then(res => {
               dispatch(login(user))
             })
@@ -51,17 +52,41 @@ export const login = user => {
       password: user.password,
       returnSecureToken: true,
     })
-      .catch(err => console.error(err))
+      .catch(err => {
+        console.log(err)
+        dispatch(
+          setMessage({
+            title: 'Erro',
+            msg: 'Ocorreu um erro inesperado!',
+          }),
+        )
+      })
       .then(res => {
-        if (res.data.localId) {
+        console.log('res', res)
+        if (res && res.data.localId) {
           Axios.get(`/users/${res.data.localId}.json`)
-            .catch(err => console.error(err))
+            .catch(err => {
+              console.log(err)
+              dispatch(
+                setMessage({
+                  title: 'Erro',
+                  msg: 'Ocorreu um erro inesperado!',
+                }),
+              )
+            })
             .then(_ => {
               user.password = null
               user.name = res.data.name
               dispatch(userLogged(user))
               dispatch(userLoaded(user))
             })
+        } else {
+          dispatch(
+            setMessage({
+              title: 'Erro',
+              msg: 'Ocorreu um erro inesperado!',
+            }),
+          )
         }
       })
   }
