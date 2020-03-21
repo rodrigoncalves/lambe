@@ -39,7 +39,6 @@ class AddPhoto extends Component {
         maxWidth: 800,
       },
       res => {
-        console.log(res)
         if (!res.didCancel) {
           this.setState({image: {uri: res.uri, base64: res.data}})
         }
@@ -61,7 +60,7 @@ class AddPhoto extends Component {
       comments: [
         {
           nickname: this.props.name,
-          comment: this.state.comment,
+          text: this.state.comment,
         },
       ],
     })
