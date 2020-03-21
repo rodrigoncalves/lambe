@@ -39,7 +39,7 @@ export const addComment = payload => {
         comments.push(payload.comment)
         Axios.patch(`/posts/${payload.postId}.json`, {comments})
           .catch(err => console.error(err))
-          .then(res => {
+          .then(_ => {
             dispatch(fetchPosts())
           })
       })
