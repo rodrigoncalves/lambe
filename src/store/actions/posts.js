@@ -30,10 +30,21 @@ export const addPost = post => {
   }
 }
 
-export const addComment = comment => ({
-  type: ADD_COMMENT,
-  payload: comment,
-})
+export const addComment = payload => {
+  return dispatch => {
+    Axios.get(`/posts/${payload.postId}.json`)
+      .catch(err => console.error(err))
+      .then(res => {
+        const comments = res.data.comments || []
+        comments.push(payload.comment)
+        Axios.patch(`/posts/${payload.postId}.json`, {comments})
+          .catch(err => console.error(err))
+          .then(res => {
+            dispatch(fetchPosts())
+          })
+      })
+  }
+}
 
 export const setPosts = posts => ({
   type: SET_POSTS,
