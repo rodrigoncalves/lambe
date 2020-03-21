@@ -42,7 +42,6 @@ exports.uploadImage = functions.https.onRequest((request, response) => {
           return response.status(201).json({imageUrl})
         },
       )
-      return response.status(200).send()
     } catch (error) {
       console.error(error)
       return response.status(500).json({error})
