@@ -3,7 +3,7 @@ import Axios from 'axios'
 import {setMessage} from './message'
 
 export const addPost = post => {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(creatingPost())
     Axios({
       url: 'uploadImage',
@@ -24,7 +24,7 @@ export const addPost = post => {
       })
       .then(resp => {
         post.image = resp.data.imageUrl
-        Axios.post('/posts.json', {...post})
+        Axios.post(`/posts.json?auth=${getState().user.token}`, {...post})
           .catch(err => {
             console.log(err)
             dispatch(
@@ -49,7 +49,7 @@ export const addPost = post => {
 }
 
 export const addComment = payload => {
-  return dispatch => {
+  return (dispatch, getState) => {
     Axios.get(`/posts/${payload.postId}.json`)
       .catch(err => {
         console.log(err)
@@ -63,7 +63,10 @@ export const addComment = payload => {
       .then(res => {
         const comments = res.data.comments || []
         comments.push(payload.comment)
-        Axios.patch(`/posts/${payload.postId}.json`, {comments})
+        Axios.patch(
+          `/posts/${payload.postId}.json?auth=${getState().user.token}`,
+          {comments},
+        )
           .catch(err => {
             console.log(err)
             dispatch(

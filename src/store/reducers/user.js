@@ -9,6 +9,7 @@ const initialState = {
   name: null,
   email: null,
   isLoading: false,
+  token: null,
 }
 
 export default (state = initialState, action) => {
@@ -18,6 +19,7 @@ export default (state = initialState, action) => {
         ...state,
         name: action.payload.name,
         email: action.payload.email,
+        token: action.payload.token,
       }
     case USER_LOGGED_OUT:
       return {

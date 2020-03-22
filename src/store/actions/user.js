@@ -79,7 +79,6 @@ export const login = user => {
         )
       })
       .then(res => {
-        console.log('res', res)
         if (res && res.data.localId) {
           Axios.get(`/users/${res.data.localId}.json`)
             .catch(err => {
@@ -91,9 +90,10 @@ export const login = user => {
                 }),
               )
             })
-            .then(_ => {
+            .then(resp => {
               delete user.password
-              user.name = res.data.name
+              user.token = res.data.idToken
+              user.name = resp.data.name
               dispatch(userLogged(user))
               dispatch(userLoaded(user))
             })
